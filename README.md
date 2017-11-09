@@ -1,1 +1,2 @@
-# prob2-ui-visualizations
+# ProB2-UI Visualizations
+

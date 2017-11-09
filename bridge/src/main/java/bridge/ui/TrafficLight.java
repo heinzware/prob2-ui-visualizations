@@ -6,8 +6,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Description of class
- *
  * @author Christoph Heinzen
  * @version 0.1.0
  * @since 10.10.17

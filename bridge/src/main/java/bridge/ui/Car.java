@@ -9,8 +9,6 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Transform;
 
 /**
- * Description of class
- *
  * @author Christoph Heinzen
  * @version 0.1.0
  * @since 05.10.17
@@ -68,9 +66,6 @@ public class Car extends Group {
         setScaleY(scale);
         setTranslateX(x + (((INITIAL_WIDTH * scale) - INITIAL_WIDTH) / 2.0) - 20);
         setTranslateY(y + (((INITIAL_HEIGHT * scale) - INITIAL_HEIGHT) / 2.0) - 294);
-        //getTransforms().addAll(Transform.scale(, 40.0/310.0),
-        //      Transform.translate(-6.0, -38.0));
-
 
     }
 

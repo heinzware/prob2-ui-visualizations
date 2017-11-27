@@ -126,19 +126,21 @@ public class BridgeVisualization extends Visualisation{
             ilOutSensor.setFill(Color.BLACK);
             root.getChildren().addAll(mlInSensor, mlOutSensor, ilInSensor, ilOutSensor);
 
-            ilInSensorCar = new Car(207.5,207.5);
-            ilInSensorCar.setOpacity(0);
-            ilOutSensorCar = new Car(110, 207.5);
-            ilOutSensorCar.setScaleX(-1 * ilOutSensorCar.getScaleX());
-            ilOutSensorCar.setOpacity(0);
-            mlInSensorCar = new Car(490,207.5);
-            mlInSensorCar.setScaleX(-1 * mlInSensorCar.getScaleX());
-            mlInSensorCar.setOpacity(0);
-            mlOutSensorCar = new Car(580, 207.5);
-            mlOutSensorCar.setOpacity(0);
-            root.getChildren().addAll(ilInSensorCar, ilOutSensorCar, mlInSensorCar, mlOutSensorCar);
+
 
         }
+
+        ilInSensorCar = new Car(207.5,207.5);
+        ilInSensorCar.setOpacity(0);
+        ilOutSensorCar = new Car(110, 207.5);
+        ilOutSensorCar.setScaleX(-1 * ilOutSensorCar.getScaleX());
+        ilOutSensorCar.setOpacity(0);
+        mlInSensorCar = new Car(490,207.5);
+        mlInSensorCar.setScaleX(-1 * mlInSensorCar.getScaleX());
+        mlInSensorCar.setOpacity(0);
+        mlOutSensorCar = new Car(580, 207.5);
+        mlOutSensorCar.setOpacity(0);
+        root.getChildren().addAll(ilInSensorCar, ilOutSensorCar, mlInSensorCar, mlOutSensorCar);
 
         for (int i = 0; i < 3; i++) {
             toIslandCars[i] = new Car(292.5 + (i * 85), 207.5);

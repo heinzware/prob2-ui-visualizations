@@ -4,6 +4,7 @@ import bridge.ui.Car;
 import bridge.ui.TrafficLight;
 import de.prob2.ui.visualisation.fx.Visualisation;
 import de.prob2.ui.visualisation.fx.listener.FormulaListener;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
@@ -42,6 +43,10 @@ public class BridgeVisualization extends Visualisation{
     private Text textA;
     private Text textB;
     private Text textC;
+    private Car ilInSensorCar;
+    private Car ilOutSensorCar;
+    private Car mlInSensorCar;
+    private Car mlOutSensorCar;
 
     @Override
     protected String getName() {
@@ -72,7 +77,7 @@ public class BridgeVisualization extends Visualisation{
         Rectangle sea = new Rectangle(0, 0, 765, 555);
         sea.setFill(Color.DARKBLUE);
 
-        Rectangle bridge = new Rectangle(250, 197.5, 350,60);
+        Rectangle bridge = new Rectangle(190, 197.5, 410,60);
         bridge.setFill(Color.WHITE);
         bridge.setStroke(Color.BLACK);
         bridge.setStrokeWidth(STROKE_WIDTH);
@@ -83,42 +88,67 @@ public class BridgeVisualization extends Visualisation{
         mainland.setStrokeWidth(STROKE_WIDTH);
         mainland.setFill(Color.WHITE);
 
-        Ellipse island = new Ellipse(130, 227.5, 130, 146);
+        Ellipse island = new Ellipse(100, 227.5, 100, 126);
         island.setFill(Color.WHITE);
         island.setStroke(Color.BLACK);
         island.setStrokeWidth(STROKE_WIDTH);
 
         mainlandTrafficLight = new TrafficLight(540, 107.5);
-        mainlandTrafficLight.setOpacity(0);
-        islandTrafficLight = new TrafficLight(260, 267.5);
-        islandTrafficLight.setOpacity(0);
+        mainlandTrafficLight.setOpacity((model.getValue("ml_tl") != null ? 1 : 0));
+        islandTrafficLight = new TrafficLight(200, 267.5);
+        islandTrafficLight.setOpacity((model.getValue("il_tl") != null ? 1 : 0));
 
         textN = new Text(20,40, "n = 0");
         textN.setFont(Font.font("Helvetica", FontWeight.BOLD, 25));
         textN.setFill(Color.WHITE);
-        textA = new Text(260,187.5, "a = 0");
+        textA = new Text(200,187.5, "a = 0");
         textA.setFont(Font.font("Helvetica", FontWeight.BOLD, 25));
         textA.setFill(Color.WHITE);
-        textA.setOpacity(0);
-        textB = new Text(95,135, "b = 0");
+        textA.setOpacity((model.getValue("a") != null ? 1 : 0));
+        textB = new Text(65,135, "b = 0");
         textB.setFont(Font.font("Helvetica", FontWeight.BOLD, 25));
-        textB.setOpacity(0);
+        textB.setOpacity((model.getValue("b") != null ? 1 : 0));
         textC = new Text(495,285.5, "c = 0");
         textC.setFont(Font.font("Helvetica", FontWeight.BOLD, 25));
         textC.setFill(Color.WHITE);
-        textC.setOpacity(0);
+        textC.setOpacity((model.getValue("c") != null ? 1 : 0));
 
         root.getChildren().addAll(sea, bridge, island, mainland, mainlandTrafficLight, islandTrafficLight, textA, textB, textC, textN);
 
+        if (model.getValue("il_in_sr") != null) {
+            Rectangle mlInSensor = new Rectangle(550, 217.5, 20, 20);
+            mlInSensor.setFill(Color.BLACK);
+            Rectangle mlOutSensor = new Rectangle(585, 217.5, 20, 20);
+            mlOutSensor.setFill(Color.BLACK);
+            Rectangle ilInSensor = new Rectangle(207.5, 217.5, 20, 20);
+            ilInSensor.setFill(Color.BLACK);
+            Rectangle ilOutSensor = new Rectangle(172.5, 217.5, 20, 20);
+            ilOutSensor.setFill(Color.BLACK);
+            root.getChildren().addAll(mlInSensor, mlOutSensor, ilInSensor, ilOutSensor);
+
+            ilInSensorCar = new Car(207.5,207.5);
+            ilInSensorCar.setOpacity(0);
+            ilOutSensorCar = new Car(110, 207.5);
+            ilOutSensorCar.setScaleX(-1 * ilOutSensorCar.getScaleX());
+            ilOutSensorCar.setOpacity(0);
+            mlInSensorCar = new Car(490,207.5);
+            mlInSensorCar.setScaleX(-1 * mlInSensorCar.getScaleX());
+            mlInSensorCar.setOpacity(0);
+            mlOutSensorCar = new Car(580, 207.5);
+            mlOutSensorCar.setOpacity(0);
+            root.getChildren().addAll(ilInSensorCar, ilOutSensorCar, mlInSensorCar, mlOutSensorCar);
+
+        }
+
         for (int i = 0; i < 3; i++) {
-            toIslandCars[i] = new Car(262 + (i * 85), 207.5);
+            toIslandCars[i] = new Car(292.5 + (i * 85), 207.5);
             toIslandCars[i].setOpacity(0);
-            fromIslandCars[i] = new Car(490 - (i * 85), 207.5);
+            fromIslandCars[i] = new Car(405 - (i * 85), 207.5);
             fromIslandCars[i].setScaleX(-1 * fromIslandCars[i].getScaleX());
             fromIslandCars[i].setOpacity(0);
-            islandCars[i] = new Car(50, 162.5 + (i * 45));
+            islandCars[i] = new Car(20, 162.5 + (i * 45));
             islandCars[i].setOpacity(0);
-            mainlandCars[i] = new Car(650, 162.5 + (i * 45));
+            mainlandCars[i] = new Car(670, 162.5 + (i * 45));
         }
 
         root.getChildren().addAll(toIslandCars);
@@ -139,24 +169,36 @@ public class BridgeVisualization extends Visualisation{
 
     @Override
     protected void registerFormulaListener() {
-        registerFormulaListener(new FormulaListener("n", "b") {
+        registerFormulaListener(new FormulaListener("n", "b", "il_out_sr", "ml_out_sr") {
             @Override
             public void variablesChanged(Object[] newValues) throws Exception {
+                Boolean mlOutSensor = translateToBool(newValues[3]);
+                mlOutSensor = (mlOutSensor != null && mlOutSensor);
                 for (int i = 0; i < 3; i++) {
                     islandCars[i].setOpacity(0);
                     mainlandCars[i].setOpacity(0);
                 }
+                Boolean ilOutSensor = translateToBool(newValues[2]);
                 Integer n = translateToInt(newValues[0]);
                 textN.setText("n = " + n);
-                for (int i = 0; i < (3 - n); i++) {
+                for (int i = 0; i < (3 - n - (mlOutSensor ? 1 : 0)); i++) {
                     mainlandCars[i].setOpacity(1);
                 }
+                mlOutSensorCar.setOpacity((mlOutSensor ? 1 : 0));
                 Integer b = translateToInt(newValues[1]);
                 if (b != null) {
                     textB.setOpacity(1);
                     textB.setText("b = " + b);
-                    for (int i = 0; i < b; i++) {
-                        islandCars[i].setOpacity(1);
+                    if (ilOutSensor != null && ilOutSensor) {
+                        for (int i = 0; i < b-1; i++) {
+                            islandCars[i].setOpacity(1);
+                        }
+                        ilOutSensorCar.setOpacity(1);
+                    } else {
+                        for (int i = 0; i < b; i++) {
+                            islandCars[i].setOpacity(1);
+                        }
+                        ilOutSensorCar.setOpacity(0);
                     }
                 } else {
                     for (int i = 0; i < n; i++) {
@@ -166,35 +208,53 @@ public class BridgeVisualization extends Visualisation{
             }
         });
 
-        registerFormulaListener(new FormulaListener("a") {
+        registerFormulaListener(new FormulaListener("a", "il_in_sr") {
             @Override
             public void variablesChanged(Object[] newValues) throws Exception {
                 for (Car toIslandCar : toIslandCars) {
                     toIslandCar.setOpacity(0);
                 }
                 Integer a = translateToInt(newValues[0]);
+                Boolean sensor = translateToBool(newValues[1]);
                 if (a != null) {
                     textA.setOpacity(1);
                     textA.setText("a = " + a);
-                    for (int i = 0; i < a; i++) {
-                        toIslandCars[i].setOpacity(1);
+                    if (sensor != null && sensor) {
+                        for (int i = 0; i < a - 1; i++) {
+                            toIslandCars[i].setOpacity(1);
+                        }
+                        ilInSensorCar.setOpacity(1);
+                    } else {
+                        for (int i = 0; i < a; i++) {
+                            toIslandCars[i].setOpacity(1);
+                        }
+                        ilInSensorCar.setOpacity(0);
                     }
                 }
             }
         });
 
-        registerFormulaListener(new FormulaListener("c") {
+        registerFormulaListener(new FormulaListener("c", "ml_in_sr") {
             @Override
             public void variablesChanged(Object[] newValues) throws Exception {
                 for (Car fromIslandCar : fromIslandCars) {
                     fromIslandCar.setOpacity(0);
                 }
+                Boolean sensor = translateToBool(newValues[1]);
                 Integer c = translateToInt(newValues[0]);
                 if (c != null) {
                     textC.setOpacity(1);
                     textC.setText("c = " + c);
-                    for (int i = 0; i < c; i++) {
-                        fromIslandCars[i].setOpacity(1);
+                    if (sensor != null && sensor) {
+                        for (int i = 0; i < c - 1; i++) {
+                            fromIslandCars[i].setOpacity(1);
+                        }
+                        mlInSensorCar.setOpacity(1);
+                    } else {
+                        for (int i = 0; i < c; i++) {
+                            fromIslandCars[i].setOpacity(1);
+                        }
+                        mlInSensorCar.setOpacity(0);
                     }
                 }
             }

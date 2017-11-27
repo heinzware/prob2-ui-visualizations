@@ -97,7 +97,7 @@ public class LiftVisualization extends Visualisation{
 
     @Override
     protected String[] getMachines() {
-        return new String[]{"MLift.bum"};
+        return new String[]{"MLift.bum", "Lift.mch"};
     }
 
     @Override

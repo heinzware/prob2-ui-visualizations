@@ -1,6 +1,9 @@
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -31,6 +34,11 @@ public class LiftVisualization extends Visualisation{
     @Override
     protected String getName() {
         return "Lift Visualisation";
+    }
+
+    @Override
+    protected String[] getMachines() {
+        return new String[]{"MLift.bum", "Lift.mch"};
     }
 
     @Override
@@ -69,13 +77,24 @@ public class LiftVisualization extends Visualisation{
         line2.setStroke(Color.BLACK);
         line2.getStrokeDashArray().addAll(4d);
 
+        EventHandler<MouseEvent> floorClickHandler = (event) -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                model.executeEvent("push_call_button", "b=" + ((Text) event.getSource()).getUserData());
+            }
+        };
 
-        Text floor2 = new Text(288, 68, "Floor 2");
+        Text floor2 = new Text(288, 68, "Floor 1");
         floor2.setFont(Font.font("Monospace", FontWeight.BOLD, 14));
-        Text floor1 = new Text(288, 190, "Floor 1");
+        floor2.setUserData("1");
+        floor2.setOnMouseClicked(floorClickHandler);
+        Text floor1 = new Text(288, 190, "Floor 0");
         floor1.setFont(Font.font("Monospace", FontWeight.BOLD, 14));
-        Text floor0 = new Text(288, 295, "Floor 0");
+        floor1.setUserData("0");
+        floor1.setOnMouseClicked(floorClickHandler);
+        Text floor0 = new Text(288, 295, "Floor -1");
         floor0.setFont(Font.font("Monospace", FontWeight.BOLD, 14));
+        floor0.setUserData("-1");
+        floor0.setOnMouseClicked(floorClickHandler);
 
         moving = new Text(58, 385, "Moving: idle");
         moving.setFont(Font.font("Helvetica", FontWeight.BOLD, 15));
@@ -96,18 +115,13 @@ public class LiftVisualization extends Visualisation{
     }
 
     @Override
-    protected String[] getMachines() {
-        return new String[]{"MLift.bum", "Lift.mch"};
-    }
-
-    @Override
     protected void registerFormulaListener() {
         registerFormulaListener(new FormulaListener("cur_floor") {
             @Override
             public void variablesChanged(Object[] newValues) {
                 int floor = translateToInt(newValues[0]);
-                currentFloor.setText("Current Floor: " + (floor+1));
-                lift.setY(250 - ((floor + 1 ) * 110));
+                currentFloor.setText("Current Floor: " + (floor));
+                lift.setY(250 - ((floor + 1) * 110));
             }
         });
 

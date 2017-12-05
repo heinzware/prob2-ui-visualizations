@@ -1,3 +1,0 @@
- expecting: 'ABSTRACT_CONSTANTS', 'ABSTRACT_VARIABLES', 'ASSERTIONS', 'CONCRETE_CONSTANTS', 'CONCRETE_VARIABLES', 'CONSTANTS', 'CONSTRAINTS', 'DEFINITIONS', 'END', 'EXTENDS', 'IMPORTS', 'INCLUDES', initialisation, 'INVARIANT', 'LOCAL_OPERATIONS', operations, 'PROMOTES', 'PROPERTIES', 'SEES', 'SETS', 'USES', 'VALUES', 'VARIABLES', 'FREETYPES'
- ### File: /home/christoph/Dokumente/Masterarbeit/software/prob2-ui-visualizations/lift-visualization/classicalB/Lift.mch
- ### Line: 3, Column: 18

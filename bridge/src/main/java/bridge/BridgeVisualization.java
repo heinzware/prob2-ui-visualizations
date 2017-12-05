@@ -47,6 +47,10 @@ public class BridgeVisualization extends Visualisation{
     private Car ilOutSensorCar;
     private Car mlInSensorCar;
     private Car mlOutSensorCar;
+    private Rectangle mlInSensor;
+    private Rectangle mlOutSensor;
+    private Rectangle ilInSensor;
+    private Rectangle ilOutSensor;
 
     @Override
     protected String getName() {
@@ -70,7 +74,7 @@ public class BridgeVisualization extends Visualisation{
         pane.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-               scaleVisualization(newValue.doubleValue());
+                scaleVisualization(newValue.doubleValue());
             }
         });
 
@@ -115,20 +119,19 @@ public class BridgeVisualization extends Visualisation{
 
         root.getChildren().addAll(sea, bridge, island, mainland, mainlandTrafficLight, islandTrafficLight, textA, textB, textC, textN);
 
-        if (model.getValue("il_in_sr") != null) {
-            Rectangle mlInSensor = new Rectangle(550, 217.5, 20, 20);
-            mlInSensor.setFill(Color.BLACK);
-            Rectangle mlOutSensor = new Rectangle(585, 217.5, 20, 20);
-            mlOutSensor.setFill(Color.BLACK);
-            Rectangle ilInSensor = new Rectangle(207.5, 217.5, 20, 20);
-            ilInSensor.setFill(Color.BLACK);
-            Rectangle ilOutSensor = new Rectangle(172.5, 217.5, 20, 20);
-            ilOutSensor.setFill(Color.BLACK);
-            root.getChildren().addAll(mlInSensor, mlOutSensor, ilInSensor, ilOutSensor);
-
-
-
-        }
+        mlInSensor = new Rectangle(550, 217.5, 20, 20);
+        mlInSensor.setFill(Color.BLACK);
+        mlInSensor.setOpacity(0);
+        mlOutSensor = new Rectangle(585, 217.5, 20, 20);
+        mlOutSensor.setFill(Color.BLACK);
+        mlOutSensor.setOpacity(0);
+        ilInSensor = new Rectangle(207.5, 217.5, 20, 20);
+        ilInSensor.setFill(Color.BLACK);
+        ilInSensor.setOpacity(0);
+        ilOutSensor = new Rectangle(172.5, 217.5, 20, 20);
+        ilOutSensor.setFill(Color.BLACK);
+        ilOutSensor.setOpacity(0);
+        root.getChildren().addAll(mlInSensor, mlOutSensor, ilInSensor, ilOutSensor);
 
         ilInSensorCar = new Car(207.5,207.5);
         ilInSensorCar.setOpacity(0);
@@ -175,12 +178,14 @@ public class BridgeVisualization extends Visualisation{
             @Override
             public void variablesChanged(Object[] newValues) throws Exception {
                 Boolean mlOutSensor = translateToBool(newValues[3]);
+                if (mlOutSensor != null) BridgeVisualization.this.mlOutSensor.setOpacity(1);
                 mlOutSensor = (mlOutSensor != null && mlOutSensor);
                 for (int i = 0; i < 3; i++) {
                     islandCars[i].setOpacity(0);
                     mainlandCars[i].setOpacity(0);
                 }
                 Boolean ilOutSensor = translateToBool(newValues[2]);
+                if (ilOutSensor != null) BridgeVisualization.this.ilOutSensor.setOpacity(1);
                 Integer n = translateToInt(newValues[0]);
                 textN.setText("n = " + n);
                 for (int i = 0; i < (3 - n - (mlOutSensor ? 1 : 0)); i++) {
@@ -218,6 +223,7 @@ public class BridgeVisualization extends Visualisation{
                 }
                 Integer a = translateToInt(newValues[0]);
                 Boolean sensor = translateToBool(newValues[1]);
+                if (sensor != null) BridgeVisualization.this.ilInSensor.setOpacity(1);
                 if (a != null) {
                     textA.setOpacity(1);
                     textA.setText("a = " + a);
@@ -243,6 +249,7 @@ public class BridgeVisualization extends Visualisation{
                     fromIslandCar.setOpacity(0);
                 }
                 Boolean sensor = translateToBool(newValues[1]);
+                if (sensor != null) BridgeVisualization.this.mlInSensor.setOpacity(1);
                 Integer c = translateToInt(newValues[0]);
                 if (c != null) {
                     textC.setOpacity(1);

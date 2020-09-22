@@ -6,56 +6,63 @@
       "name": "m3_sensors",
       "description": "",
       "location": "m3_sensors.bum",
-      "type": "EVENTB",
+      "lastUsedPreferenceName": "default",
       "ltlFormulas": [],
       "ltlPatterns": [],
-      "cbcFormulas": [],
+      "symbolicCheckingFormulas": [],
+      "symbolicAnimationFormulas": [],
+      "testCases": [],
+      "traces": [],
       "modelcheckingItems": []
     },
     {
       "name": "m0_island_bridge",
       "description": "",
       "location": "m0_island_bridge.bum",
-      "type": "EVENTB",
+      "lastUsedPreferenceName": "default",
       "ltlFormulas": [],
       "ltlPatterns": [],
-      "cbcFormulas": [],
+      "symbolicCheckingFormulas": [],
+      "symbolicAnimationFormulas": [],
+      "testCases": [],
+      "traces": [],
       "modelcheckingItems": []
     },
     {
       "name": "m1_bridge",
       "description": "",
       "location": "m1_bridge.bum",
-      "type": "EVENTB",
+      "lastUsedPreferenceName": "default",
       "ltlFormulas": [],
       "ltlPatterns": [],
-      "cbcFormulas": [],
+      "symbolicCheckingFormulas": [],
+      "symbolicAnimationFormulas": [],
+      "testCases": [],
+      "traces": [],
       "modelcheckingItems": []
     },
     {
       "name": "m2_lights",
       "description": "",
       "location": "m2_lights.bum",
-      "type": "EVENTB",
+      "lastUsedPreferenceName": "default",
       "ltlFormulas": [],
       "ltlPatterns": [],
-      "cbcFormulas": [],
+      "symbolicCheckingFormulas": [],
+      "symbolicAnimationFormulas": [],
+      "testCases": [],
+      "traces": [],
       "modelcheckingItems": []
     }
   ],
   "preferences": [],
-  "runconfigurations": [
-    {
-      "name": "m1_bridge.default"
-    },
-    {
-      "name": "m3_sensors.default"
-    },
-    {
-      "name": "m2_lights.default"
-    },
-    {
-      "name": "m0_island_bridge.default"
-    }
-  ]
+  "metadata": {
+    "fileType": "Project",
+    "formatVersion": 4,
+    "savedAt": "2020-09-22T13:41:44.321905Z",
+    "creator": "User",
+    "proB2KernelVersion": "4.0.0-SNAPSHOT",
+    "proBCliVersion": null,
+    "modelName": null
+  }
 }

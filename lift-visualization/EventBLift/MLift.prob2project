@@ -6,17 +6,24 @@
       "name": "MLift",
       "description": "",
       "location": "MLift.bum",
-      "type": "EVENTB",
+      "lastUsedPreferenceName": "default",
       "ltlFormulas": [],
       "ltlPatterns": [],
-      "cbcFormulas": [],
+      "symbolicCheckingFormulas": [],
+      "symbolicAnimationFormulas": [],
+      "testCases": [],
+      "traces": [],
       "modelcheckingItems": []
     }
   ],
   "preferences": [],
-  "runconfigurations": [
-    {
-      "name": "MLift.default"
-    }
-  ]
+  "metadata": {
+    "fileType": "Project",
+    "formatVersion": 4,
+    "savedAt": "2020-09-22T13:40:31.328411Z",
+    "creator": "User",
+    "proB2KernelVersion": "4.0.0-SNAPSHOT",
+    "proBCliVersion": null,
+    "modelName": null
+  }
 }
